@@ -401,15 +401,10 @@ jobs:
           done
           fi
 
-      - name: get repository name
-        run: |
-          echo "Full repo: $GITHUB_REPOSITORY"
-          repo_name=$(echo "$GITHUB_REPOSITORY" | cut -d'/' -f2)
-          echo "Repo name: $repo_name"
-
       - name: Apply patch_linux and replace Image
         if: ${{ github.event.inputs.KPM == 'true' }}
         run: |
+          repo_name=$(echo "$GITHUB_REPOSITORY" | cut -d'/' -f2)
           cd /home/runner/work/$repo_name/$repo_name/kernel_workspace/kernel_platform/out/msm-kernel-${{ github.event.inputs.CPUD }}-${{ github.event.inputs.BUILD_METHOD }}/dist
 
           curl -LSs "https://raw.githubusercontent.com/ShirkNeko/SukiSU_patch/refs/heads/main/kpm/patch_linux" -o patch_linux
